@@ -1,0 +1,35 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Диаграмма контекста (C4): Экосистема "Тёплый дом" (To-Be)
+
+Person(user, "Пользователь", "Самостоятельно покупает комплекты, подключает устройства, настраивает сценарии, управляет домом")
+
+System(smartHomePlatform, "Экосистема умного дома (SaaS)", "Платформа самообслуживания для управления устройствами и автоматизации. Включает в себя логику управления пользователями, устройствами, сценариями, телеметрией и интеграцией.")
+
+System_Ext(partnerDevices, "Устройства партнёров", "Любые совместимые устройства: отопление, свет, ворота, камеры. Подключаются пользователем самостоятельно через интернет.")
+
+System_Ext(mobileApp, "Мобильное приложение", "iOS/Android клиент для управления в реальном времени")
+System_Ext(webPortal, "Веб-портал самообслуживания", "Покупка комплектов, настройка сценариев, просмотр телеметрии, управление профилем")
+
+Rel(user, webPortal, "Регистрируется, покупает, настраивает", "HTTPS")
+Rel(user, mobileApp, "Управляет домом в реальном времени", "HTTPS")
+
+Rel(webPortal, smartHomePlatform, "Передаёт конфигурации и команды", "API")
+Rel(mobileApp, smartHomePlatform, "Отправляет команды, получает статус", "API")
+
+Rel(smartHomePlatform, partnerDevices, "Обменивается данными и командами", "Интернет")
+
+note right of smartHomePlatform
+  Внутри платформы (не показано на этом уровне):
+  - Управление пользователями (User Management)
+  - Управление устройствами (Device Management)
+  - Механизм сценариев (Scenario Engine)
+  - Сбор телеметрии (Telemetry)
+  - Интеграция с устройствами (Integration Gateway)
+  - Каталог продуктов (Product Catalog)
+end note
+
+LAYOUT_WITH_LEGEND()
+
+@enduml

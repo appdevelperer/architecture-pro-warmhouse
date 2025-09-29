@@ -1,0 +1,30 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Диаграмма компонентов: Device Service (Device Management BC)
+
+Container_Boundary(device_service, "Device Service") {
+    Component(device_controller, "Device Controller", "REST API", "Обрабатывает HTTP-запросы от клиентов")
+    Component(device_service_impl, "Device Service", "Business Logic", "Основная логика управления устройствами")
+    Component(device_repository, "Device Repository", "Data Access", "Работа с БД устройств (PostgreSQL)")
+    Component(event_publisher, "Event Publisher", "Messaging", "Публикует события (например, DeviceRegistered, DeviceStatusChanged)")
+    Component(command_sender, "Command Sender", "Integration", "Отправляет команды в Integration Gateway")
+
+    Rel(device_controller, device_service_impl, "Вызывает бизнес-логику", "sync call")
+    Rel(device_service_impl, device_repository, "Сохраняет/получает данные", "sync call")
+    Rel(device_service_impl, event_publisher, "Публикует события", "async")
+    Rel(device_service_impl, command_sender, "Отправляет команды устройствам", "gRPC")
+}
+
+' Внешние зависимости
+Rel_Back(device_service, integration_gateway, "Отправка команд", "gRPC")
+Rel_Back(device_service, scenario_service, "Получение команд от сценариев", "HTTP")
+Rel_Back(device_service, telemetry_service, "Отправка данных для телеметрии", "HTTP")
+
+note right of device_service
+  Компоненты следуют принципам SOLID.
+  События позволяют другим сервисам (например, Telemetry)
+  реагировать на изменения без прямой зависимости.
+end note
+
+@enduml
