@@ -46,34 +46,32 @@
 - Синхронный опрос устройств
 - PostgreSQL как универсальное хранилище
 
-### 5. Визуализация контекста системы — диаграмма С4
+### 5. Визуализация контекста системы — диаграмма С4 
 
-Добавьте сюда диаграмму контекста в модели C4.
-
-c4_ContextDiagram_AsIs.plantuml
+c4_ContextDiagram_AsIs.plantuml (см. проект warmHouse.Analisys)
 
 # Задание 2. Проектирование микросервисной архитектуры
 
 **Диаграмма контекста To-Be (Context)**
 
-c4_ContextDiagram_ToBe.plantuml
+c4_ContextDiagram_ToBe.plantuml (см. проект warmHouse.Analisys)
 
 **Диаграмма контейнеров (Containers)**
 
-с4_ContainerDiagram.plantuml
+с4_ContainerDiagram.plantuml (см. проект warmHouse.Analisys)
 
 **Диаграмма компонентов (Components)**
 
-c4_ComponentDiagram_DeviceManagement.plantuml
-c4_ComponentDiagram_ScenarioManagement.plantuml
+c4_ComponentDiagram_DeviceManagement.plantuml (см. проект warmHouse.Analisys)
+c4_ComponentDiagram_ScenarioManagement.plantuml (см. проект warmHouse.Analisys)
 
 **Диаграмма кода (Code)**
 
-c4_CodeDiagram.plantuml
+c4_CodeDiagram.plantuml (см. проект warmHouse.Analisys)
 
 # Задание 3. Разработка ER-диаграммы
 
-ER_diagram.plantuml
+ER_diagram.plantuml (см. проект warmHouse.Analisys)
 
 # Задание 4. Создание и документирование API
 
@@ -83,24 +81,34 @@ ER_diagram.plantuml
 - REST для синхронного взаимодействия в тех случаях, когда важна скорость и непрерывность операции (например, связка Пользовательский интерфейс - Бэкенд, Синхронные операции с подтверждением, например, отправка команд устройствам, а также финансовые операции) либо для предоставляения API для внешних пользователей
 - RMQ для асинхронного взаимодейтсвия в тех случаях, когда не требуется того, что имеет REST. но требуется гарантированная доставка и повторные попытки, слабление связности сервисов, либо в случае высокой нагрузки
 
-Детали для выбранного сервиса в DeviceManagerService.yaml
+Детали для выбранного сервиса в DeviceManagerService.yaml (см. проект warmHouse.Analisys)
 
 ### 2. Документация API
 
-DeviceManagerService.yaml (для swagger)
+DeviceManagerService.yaml (для swagger) (см. проект warmHouse.Analisys)
 
 # Задание 5. Работа с docker и docker-compose
 
 Создан workspace, в рамках которого есть несколько проектов-решений:
-1) WarmHouse.Analisys - содержит ReadMe, диаграмы c4, ER-диаграма, пример описания API, а также docker compose для старта RMQ. Для запуска нужно выполнить ./init.sh в папке проекта.
+1) WarmHouse.Analisys - содержит ReadMe, диаграмы c4, ER-диаграма, пример описания API 
+Также docker compose для старта RMQ. 
+Для запуска нужно выполнить ./init.sh в папке проекта.
 
-2) WarmHouse.SensorService - содержит мок-сервис датчика температур. Для его старта информация о нем добавлена в docker compose для WarmHouse.Monolit. БУдет доступен после запуска по http://localhost:8081/swagger/index.html
+2) WarmHouse.SensorService - содержит мок-сервис датчика температур. 
+Для его старта информация о нем добавлена в docker compose для WarmHouse.Monolit. 
+БУдет доступен после запуска по http://localhost:8081/swagger/index.html
 
-3) WarmHouse.Monolit - содержит приложение-монолит для работы с датчиками температуры. Для него прежний docker compose бы расширен: в него добавен сервис WarmHouse.SensorService, а также pgadmin. После запуска можно увидеть температуру, которую передает датчик по http://localhost:8080/api/v1/sensors/temperature/Living%20Room
+3) WarmHouse.Monolit - содержит приложение-монолит для работы с датчиками температуры. Для него прежний docker compose бы расширен: в него добавен сервис WarmHouse.SensorService, а также pgadmin. 
+Для запуска нужно выполнить ./init.sh в папке проекта.
+После запуска можно увидеть температуру, которую передает датчик по http://localhost:8080/api/v1/sensors/temperature/Living%20Room
 
-4) WarmHouse.DeviceManagerService - содержит сервис управления устройствами. Предполагается, что монолит будет не самостоятельно работать с устройствами, а будет использовать этот сервис. Для запуска нужно выполнить ./init.sh в папке проекта. API Swagger сервиса будет достепн через http://localhost:8300/swagger/index.html. При выполнении операции Command через API команда будет передана устройству и будет сформировано сообщение в RMQ и отправлено в exchange telemetry.events
+4) WarmHouse.DeviceManagerService - содержит сервис управления устройствами. Предполагается, что монолит будет не самостоятельно работать с устройствами, а будет использовать этот сервис. 
+Для запуска нужно выполнить ./init.sh в папке проекта. 
+API Swagger сервиса будет достепн через http://localhost:8300/swagger/index.html. 
+При выполнении операции Command через API команда будет передана устройству и будет сформировано сообщение в RMQ и отправлено в exchange telemetry.events
 
-5) WarmHouse.TelemetryService - содержит сервис телеметрии, обрабатывающий соообщения из rmq и записывающий его в БД. Для запуска нужно выполнить ./init.sh в папке проекта.
+5) WarmHouse.TelemetryService - содержит сервис телеметрии, обрабатывающий соообщения из rmq и записывающий его в БД. 
+Для запуска нужно выполнить ./init.sh в папке проекта.
 
 
 # **Задание 6. Разработка MVP**
