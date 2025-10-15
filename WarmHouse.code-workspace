@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "WarmHouse.Analisys"
+		},
+		{
+			"path": "WarmHouse.DeviceManagerService"
+		},
+		{
+			"path": "WarmHouse.Monolit"
+		},
+		{
+			"path": "WarmHouse.SensorService"
+		},
+		{
+			"path": "WarmHouse.TelemetryService"
+		}
+	]
+}

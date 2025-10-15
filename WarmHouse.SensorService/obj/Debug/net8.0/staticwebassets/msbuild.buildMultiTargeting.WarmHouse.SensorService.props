@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/WarmHouse.SensorService.props" />
+</Project>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "iZb5cDnRLB5B6lgu3Rp22J8tlXAhxb1EvvDEKLEvqoI=",
+  "Source": "WarmHouse.DeviceManagerService",
+  "BasePath": "_content/WarmHouse.DeviceManagerService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

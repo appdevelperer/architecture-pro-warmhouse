@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "N5oAfiM0NzRElsKGNQwjY8fum1Oz7F8o35YHc31JH+8=",
+  "Source": "WarmHouse.TelemetryService",
+  "BasePath": "_content/WarmHouse.TelemetryService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

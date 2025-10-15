@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  telemetry-postgres:
+    image: postgres:16-alpine
+    container_name: telemetry-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres  # База по умолчанию; ваша будет создана в init.sql
+    volumes:
+      - ./scripts/telemetry-init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - smarthome-network    
+
+      
+# --- Микросервис телеметрии ---
+  telemetry-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8310:8310"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development      
+    depends_on:
+      - telemetry-postgres
+    networks:
+      - smarthome-network
+
+networks:
+  smarthome-network:
+    driver: bridge
+    external: true

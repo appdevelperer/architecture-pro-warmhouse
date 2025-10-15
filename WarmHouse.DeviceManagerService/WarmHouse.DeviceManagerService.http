@@ -1,0 +1,6 @@
+@WarmHouse.DeviceManagerService_HostAddress = http://localhost:5209
+
+GET {{WarmHouse.DeviceManagerService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

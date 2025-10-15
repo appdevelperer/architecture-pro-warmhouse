@@ -1,0 +1,44 @@
+@startuml
+title Управление устройствами
+
+class DeviceService {
+  + AddDevice(device: Device)
+  + GetDevice(id: string): Device
+  + UpdateStatus(id: string, status: string)
+  + SendCommand(id: string, command: string)
+}
+
+class Device {
+  + string Id
+  + string Name
+  + string Type
+  + string Status
+}
+
+class DeviceRepository {
+  + Save(device: Device)
+  + Find(id: string): Device
+  + GetAll(): List<Device>
+}
+
+DeviceService --> Device
+DeviceService --> DeviceRepository
+DeviceRepository --> Device
+
+note right of DeviceService
+public class DeviceService
+{
+    public void AddDevice(Device device)
+    {
+        repository.Save(device);
+    }
+    
+    public void SendCommand(string id, string command)
+    {
+        var device = repository.Find(id);
+        // отправить команду
+    }
+}
+end note
+
+@enduml

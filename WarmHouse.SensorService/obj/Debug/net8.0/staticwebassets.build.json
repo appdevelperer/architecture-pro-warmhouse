@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "JOd6pLYHa36JMkEiCbYAixsuiHEzseKxIBGt6uRin24=",
+  "Source": "WarmHouse.SensorService",
+  "BasePath": "_content/WarmHouse.SensorService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

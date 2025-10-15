@@ -1,0 +1,37 @@
+@startuml
+!include <C4/C4_Component>
+
+title C4-диаграмма компонентов: Домен "Управление сценариями"
+
+Container(scenarios_service, "Сервис сценариев", "C#", "Создание и выполнение автоматизированных правил") {
+
+Component(scenario_api, "Scenario API", "REST/HTTPS", "API для работы со сценариями")
+Component(scenario_engine, "Scenario Engine", "C#", "Движок выполнения сценариев")
+Component(trigger_manager, "Trigger Manager", "C#", "Управление триггерами сценариев")
+Component(action_executor, "Action Executor", "C#", "Выполнение действий сценариев")
+Component(condition_evaluator, "Condition Evaluator", "C#", "Проверка условий")
+Component(schedule_manager, "Schedule Manager", "C#", "Управление расписаниями")
+    
+Component(scenario_repository, "Scenario Repository", "C#", "Управление данными сценариев")
+Component(rule_parser, "Rule Parser", "C#", "Парсинг правил сценариев")
+}
+
+ContainerDb(scenarios_db, "База сценариев", "PostgreSQL", "Хранение: Сценарий, Триггер, Действие, Условие, Расписание")
+Container(message_broker, "Message Broker", "RabbitMQ", "События для триггеров")
+Container(devices_service, "Сервис устройств", "C#", "Для выполнения действий")
+
+Rel(scenario_api, scenario_engine, "Управляет сценариями", "Calls")
+Rel(scenario_engine, trigger_manager, "Обрабатывает триггеры", "Calls")
+Rel(scenario_engine, action_executor, "Выполняет действия", "Calls")
+Rel(scenario_engine, condition_evaluator, "Проверяет условия", "Calls")
+Rel(trigger_manager, schedule_manager, "Управляет расписаниями", "Calls")
+
+Rel(trigger_manager, message_broker, "Подписывается на события", "AMQP")
+Rel(action_executor, devices_service, "Вызывает действия устройств", "REST/HTTPS")
+
+Rel(scenario_engine, scenario_repository, "Работает с данными", "Calls")
+Rel(scenario_repository, scenarios_db, "Читает/записывает", "SQL")
+
+Rel(rule_parser, condition_evaluator, "Предоставляет правила", "Calls")
+
+@enduml
