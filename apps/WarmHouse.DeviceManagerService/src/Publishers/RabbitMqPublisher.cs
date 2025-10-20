@@ -6,7 +6,7 @@ using RabbitMQ.Client.Exceptions;
 public class RabbitMqPublisher : IAsyncDisposable
 {
     private readonly IConnection _connection;
-    private readonly string _exchangeName = "telemetry.events";
+    private static readonly string _exchangeName = "telemetry.events";
 
     // Приватный конструктор — создаётся только через статический асинхронный метод
     private RabbitMqPublisher(IConnection connection)

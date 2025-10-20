@@ -786,11 +786,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/imiroedov/Development/sprint_1/WarmHouse.DeviceManagerService/WarmHouse.DeviceManagerService.csproj",
+      "projectUniqueName": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.DeviceManagerService/WarmHouse.DeviceManagerService.csproj",
       "projectName": "WarmHouse.DeviceManagerService",
-      "projectPath": "/home/imiroedov/Development/sprint_1/WarmHouse.DeviceManagerService/WarmHouse.DeviceManagerService.csproj",
+      "projectPath": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.DeviceManagerService/WarmHouse.DeviceManagerService.csproj",
       "packagesPath": "/home/imiroedov/.nuget/packages/",
-      "outputPath": "/home/imiroedov/Development/sprint_1/WarmHouse.DeviceManagerService/obj/",
+      "outputPath": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.DeviceManagerService/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/imiroedov/.nuget/NuGet/NuGet.Config"

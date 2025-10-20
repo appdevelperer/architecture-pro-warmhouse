@@ -487,11 +487,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/imiroedov/Development/sprint_1/WarmHouse.SensorService/WarmHouse.SensorService.csproj",
+      "projectUniqueName": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.SensorService/WarmHouse.SensorService.csproj",
       "projectName": "WarmHouse.SensorService",
-      "projectPath": "/home/imiroedov/Development/sprint_1/WarmHouse.SensorService/WarmHouse.SensorService.csproj",
+      "projectPath": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.SensorService/WarmHouse.SensorService.csproj",
       "packagesPath": "/home/imiroedov/.nuget/packages/",
-      "outputPath": "/home/imiroedov/Development/sprint_1/WarmHouse.SensorService/obj/",
+      "outputPath": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.SensorService/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/imiroedov/.nuget/NuGet/NuGet.Config"

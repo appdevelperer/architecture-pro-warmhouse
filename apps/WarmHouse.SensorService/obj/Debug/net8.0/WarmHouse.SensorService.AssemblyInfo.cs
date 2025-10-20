@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WarmHouse.SensorService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37357a6b04c3055b9940cb99608e247858b7f7c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("WarmHouse.SensorService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WarmHouse.SensorService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

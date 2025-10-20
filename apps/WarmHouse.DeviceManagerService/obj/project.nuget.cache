@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uJVpsThU2jI=",
+  "dgSpecHash": "aBxDE/ELyj8=",
   "success": true,
-  "projectFilePath": "/home/imiroedov/Development/sprint_1/WarmHouse.DeviceManagerService/WarmHouse.DeviceManagerService.csproj",
+  "projectFilePath": "/home/imiroedov/Development/sprint_1_1_git/architecture-pro-warmhouse/apps/WarmHouse.DeviceManagerService/WarmHouse.DeviceManagerService.csproj",
   "expectedPackageFiles": [
     "/home/imiroedov/.nuget/packages/microsoft.aspnetcore.openapi/8.0.20/microsoft.aspnetcore.openapi.8.0.20.nupkg.sha512",
     "/home/imiroedov/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

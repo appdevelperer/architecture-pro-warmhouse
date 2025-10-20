@@ -28,7 +28,7 @@ services:
       POSTGRES_DB: postgres 
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./smart_home/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./WarmHouse.Monolit/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
       - "5432:5432"
     healthcheck:
@@ -36,6 +36,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    restart: on-failure    
     networks:
       - smarthome-network   
 
@@ -46,9 +47,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./WarmHouse.DeviceManagerService/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5433:5432"
+    restart: on-failure    
     networks:
       - smarthome-network      
 
@@ -60,7 +62,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres 
     volumes:
-      - ./scripts/telemetry-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./WarmHouse.TelemetryService/scripts/telemetry-init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5434:5432"
     healthcheck:
@@ -68,6 +70,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    restart: on-failure        
     networks:
       - smarthome-network    
 
@@ -79,7 +82,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: miropres202
     ports:
       - "8201:80"
-    restart: unless-stopped
+    restart: on-failure   
     networks:
       - smarthome-network
 
@@ -89,7 +92,7 @@ services:
       - "8081:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    restart: unless-stopped 
+    restart: on-failure   
     networks:
       - smarthome-network   
     
@@ -100,9 +103,11 @@ services:
     ports:
       - "8310:8310"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development      
+      - ASPNETCORE_ENVIRONMENT=Development   
+    restart: on-failure         
     depends_on:
       - telemetry-postgres
+      - rabbitmq
     networks:
       - smarthome-network
     
@@ -117,6 +122,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - device-management-postgres
+      - rabbitmq
     restart: on-failure 
     networks:
       - smarthome-network    
