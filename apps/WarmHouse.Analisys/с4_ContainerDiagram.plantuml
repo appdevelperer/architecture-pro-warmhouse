@@ -1,0 +1,72 @@
+@startuml
+!include <C4/C4_Container>
+
+title C4-диаграмма контейнеров: Экосистема "Тёплый дом" (доменная архитектура)
+
+Person(пользователь, "Пользователь", "Владелец умного дома")
+Person(менеджер, "Менеджер", "Сотрудник компании")
+
+System_Boundary(экосистема, "Экосистема 'Тёплый дом'") {
+    Container(web_app, "Веб-приложение", "React/TypeScript", "Единый интерфейс для всех доменов")
+    Container(mobile_app, "Мобильное приложение", "React Native", "Мобильный клиент")
+    
+    ' Доменные сервисы
+    Container(api_gateway, "API Gateway", "C#", "Маршрутизация к доменным сервисам")
+    
+    ContainerDb(auth_db, "База пользователей", "PostgreSQL", "Домен: Управление пользователями\n(Пользователь, Аккаунт, Роль, Сессия)")
+    ContainerDb(devices_db, "База устройств", "PostgreSQL", "Домен: Управление устройствами\n(Устройство, Датчик, Реле, Камера, Ворота)")
+    ContainerDb(scenarios_db, "База сценариев", "PostgreSQL", "Домен: Управление сценариями\n(Сценарий, Триггер, Действие, Условие)")
+    ContainerDb(orders_db, "База заказов", "PostgreSQL", "Домен: Продажа комплектов\n(Комплект, Модуль, Заказ, Активация)")
+    ContainerDb(telemetry_db, "База телеметрии", "TimescaleDB", "Домен: Телеметрия\n(Телеметрия, Показатель, История)")
+    
+    Container(auth_service, "Сервис аутентификации", "C#", "Домен: Управление пользователями")
+    Container(devices_service, "Сервис устройств", "C#", "Домен: Управление устройствами")
+    Container(scenarios_service, "Сервис сценариев", "C#", "Домен: Управление сценариями")
+    Container(orders_service, "Сервис заказов", "C#", "Домен: Продажа комплектов")
+    Container(telemetry_service, "Сервис телеметрии", "C#", "Домен: Телеметрия и мониторинг")
+    Container(partner_gateway, "Партнёрский шлюз", "C#", "Домен: Поддержка партнёрских устройств")
+    
+    Container(message_broker, "Message Broker", "RabbitMQ", "Асинхронная коммуникация между доменами")
+    Container(redis, "Кэш", "Redis", "Кэширование и сессии")
+}
+
+System_Ext(partner_devices, "Устройства партнёров", "Умные устройства с различными протоколами")
+
+' Связи пользователей
+Rel(пользователь, web_app, "Использует", "HTTPS")
+Rel(пользователь, mobile_app, "Использует", "HTTPS")
+Rel(менеджер, web_app, "Управляет", "HTTPS")
+
+' Связи фронтенда
+Rel(web_app, api_gateway, "Вызывает API", "REST/HTTPS")
+Rel(mobile_app, api_gateway, "Вызывает API", "REST/HTTPS")
+
+' Связи API Gateway с доменными сервисами
+Rel(api_gateway, auth_service, "Аутентификация/авторизация", "REST/HTTPS")
+Rel(api_gateway, devices_service, "Управление устройствами", "REST/HTTPS")
+Rel(api_gateway, scenarios_service, "Управление сценариями", "REST/HTTPS")
+Rel(api_gateway, orders_service, "Продажа комплектов", "REST/HTTPS")
+Rel(api_gateway, telemetry_service, "Получение телеметрии", "REST/HTTPS")
+
+' Связи с базами данных
+Rel(auth_service, auth_db, "Читает/записывает", "SQL")
+Rel(devices_service, devices_db, "Читает/записывает", "SQL")
+Rel(scenarios_service, scenarios_db, "Читает/записывает", "SQL")
+Rel(orders_service, orders_db, "Читает/записывает", "SQL")
+Rel(telemetry_service, telemetry_db, "Читает/записывает", "SQL")
+
+' Междоменная коммуникация
+Rel(devices_service, message_broker, "Публикует события устройств", "AMQP")
+Rel(scenarios_service, message_broker, "Подписывается на события", "AMQP")
+Rel(telemetry_service, message_broker, "Публикует телеметрию", "AMQP")
+
+' Интеграция с устройствами
+Rel(partner_gateway, partner_devices, "Обмен данными", "MQTT/HTTP/Zigbee")
+Rel(partner_gateway, devices_service, "Синхронизация состояния", "REST/HTTPS")
+Rel(partner_gateway, telemetry_service, "Передача телеметрии", "REST/HTTPS")
+
+' Кэширование
+Rel(auth_service, redis, "Кэширует сессии", "Redis Protocol")
+Rel(telemetry_service, redis, "Кэширует метрики", "Redis Protocol")
+
+@enduml

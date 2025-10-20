@@ -1,0 +1,113 @@
+@startuml name='ErDiagram'
+' Включаем синтаксис ER-диаграмм
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <b><color:red>x</color></b>
+!define foreign_key(x) <color:blue>x</color>
+
+title ER-диаграмма: Экосистема "Тёплый дом" (To-Be)
+
+' ===== Сущности из Bounded Context: User Management =====
+Table(User, "Пользователь") {
+  primary_key(id) : UUID
+  email : string
+  password_hash : string
+  full_name : string
+  created_at : timestamp
+  status : enum [active, blocked]
+}
+
+Table(Profile, "Профиль пользователя") {
+  primary_key(user_id) : UUID
+  phone : string
+  address : string
+  timezone : string
+}
+
+' ===== Сущности из Bounded Context: Product Catalog =====
+Table(Product, "Продукт (модуль)") {
+  primary_key(id) : UUID
+  name : string
+  description : text
+  device_type : enum [heating, lighting, gate, camera, generic]
+  compatibility_protocol : string
+  price : decimal
+  is_active : boolean
+}
+
+Table(Order, "Заказ") {
+  primary_key(id) : UUID
+  user_id : UUID
+  status : enum [created, paid, delivered, cancelled]
+  total_amount : decimal
+  created_at : timestamp
+}
+
+Table(OrderItem, "Позиция заказа") {
+  primary_key(id) : UUID
+  order_id : UUID
+  product_id : UUID
+  quantity : int
+}
+
+' ===== Сущности из Bounded Context: Device Management =====
+Table(Device, "Устройство") {
+  primary_key(id) : UUID
+  user_id : UUID
+  product_id : UUID
+  name : string
+  serial_number : string
+  status : enum [registered, online, offline, error]
+  registered_at : timestamp
+  last_seen : timestamp
+}
+
+Table(DeviceConfig, "Конфигурация устройства") {
+  primary_key(device_id) : UUID
+  settings : json
+  firmware_version : string
+}
+
+' ===== Сущности из Bounded Context: Scenario Engine =====
+Table(Scenario, "Сценарий") {
+  primary_key(id) : UUID
+  user_id : UUID
+  name : string
+  description : text
+  is_active : boolean
+  created_at : timestamp
+}
+
+Table(ScenarioTrigger, "Триггер сценария") {
+  primary_key(id) : UUID
+  scenario_id : UUID
+  type : enum [schedule, device_state, telemetry_value]
+  condition : json
+}
+
+Table(ScenarioAction, "Действие сценария") {
+  primary_key(id) : UUID
+  scenario_id : UUID
+  device_id : UUID
+  command : string
+  delay_seconds : int
+}
+
+' ===== Сущности из Bounded Context: Telemetry =====
+' (не показываем таблицу телеметрии, так как она будет в TSDB, не в PostgreSQL)
+
+' ===== Связи =====
+User "1" -- "0..1" Profile : has >
+User "1" -- "0..*" Order : places >
+User "1" -- "0..*" Device : owns >
+User "1" -- "0..*" Scenario : creates >
+
+Order "1" -- "1..*" OrderItem : contains >
+Product "1" -- "1..*" OrderItem : included_in >
+Product "1" -- "0..*" Device : based_on >
+
+Device "1" -- "0..1" DeviceConfig : has_config >
+Scenario "1" -- "1..*" ScenarioTrigger : has_triggers >
+Scenario "1" -- "1..*" ScenarioAction : has_actions >
+Device "1" -- "0..*" ScenarioAction : target_device >
+
+@enduml

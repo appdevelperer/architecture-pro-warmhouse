@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  device-management-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: devicedb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5433:5432"
+    networks:
+      - smarthome-network          
+
+  device-management-pgadmin:
+    image: dpage/pgadmin4
+    container_name: device-management-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: appdeveloper@bk.ru
+      PGADMIN_DEFAULT_PASSWORD: miropres202
+    ports:
+      - "8200:80"
+    restart: unless-stopped
+    networks:
+      - smarthome-network   
+
+  device-management-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8300:8300"
+    environment:
+      - ConnectionStrings__DeviceDb=Host=device-management-postgres;Port=5432;Database=devicedb;Username=postgres;Password=postgres
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - device-management-postgres
+    restart: on-failure 
+    networks:
+      - smarthome-network        
+
+networks:
+  smarthome-network:
+    driver: bridge
+    external: true
