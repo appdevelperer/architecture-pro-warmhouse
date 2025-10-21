@@ -113,7 +113,7 @@ API Swagger сервиса будет достепeн через http://localhos
 - PGadmin http://localhost:8201/login 
     - регистрируем сервер smarthome-postgres:5432 DB: smarthome, USER postgres, PWD: postgres
     - регистрируем сервер device-management-postgres:5432 DB: devicedb, USER postgres, PWD: postgres
-    - регистрируем сервер device-management-postgres:5432 DB: devicedb, USER postgres, PWD: postgres
+    - регистрируем сервер telemetry-postgres:5432 DB: postgres, USER postgres, PWD: postgres
         
 # **Задание 6. Разработка MVP**
 
