@@ -1,0 +1,6 @@
+@sensor_service_HostAddress = http://localhost:8081
+
+GET {{sensor_service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

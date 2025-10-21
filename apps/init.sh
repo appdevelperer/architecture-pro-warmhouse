@@ -3,9 +3,17 @@
 # Exit on any error
 set -e
 
+# Создаём сеть, если она ещё не существует
+if ! docker network ls | grep -q "smarthome-network"; then
+  echo "Creating Docker network 'smarthome-network'..."
+  docker network create smarthome-network
+else
+  echo "Docker network 'smarthome-network' already exists."
+fi
+
 echo "Starting the Smart Home Sensor API..."
 echo "Building and starting containers..."
-docker-compose up --build -d
+docker compose up --build -d
 
 echo "Waiting for services to be ready..."
 # Wait for PostgreSQL to be ready

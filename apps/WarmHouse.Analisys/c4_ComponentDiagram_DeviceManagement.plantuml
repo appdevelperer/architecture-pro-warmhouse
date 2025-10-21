@@ -1,0 +1,47 @@
+@startuml
+!include <C4/C4_Component>
+
+title C4-диаграмма компонентов: Домен "Управление устройствами"
+
+Container(devices_service, "Сервис устройств", "C#", "Управление устройствами и их статусами") {
+    Component(device_api, "Device API", "REST/HTTPS", "API для управления устройствами")
+    Component(device_manager, "Device Manager", "C#", "Управление жизненным циклом устройств")
+    Component(status_tracker, "Status Tracker", "C#", "Отслеживание статусов устройств")
+    Component(command_dispatcher, "Command Dispatcher", "C#", "Диспечер команд к устройствам")
+    
+    Component(device_repository, "Device Repository", "C#", "Управление данными устройств")
+    Component(sensor_processor, "Sensor Processor", "C#", "Обработка данных датчиков")
+    Component(relay_controller, "Relay Controller", "C#", "Управление реле")
+    Component(camera_manager, "Camera Manager", "C#", "Управление камерами")
+    Component(gate_controller, "Gate Controller", "C#", "Управление воротами")
+}
+
+ContainerDb(devices_db, "База устройств", "PostgreSQL", "Хранение: Устройство, Датчик, Реле, Камера, Ворота")
+Container(message_broker, "Message Broker", "RabbitMQ", "События устройств")
+Container(partner_gateway, "Партнёрский шлюз", "C#", "Шлюз для устройств")
+
+Rel(device_api, device_manager, "Вызывает", "Calls")
+Rel(device_manager, status_tracker, "Обновляет статусы", "Calls")
+Rel(device_manager, command_dispatcher, "Отправляет команды", "Calls")
+Rel(command_dispatcher, partner_gateway, "Передает команды", "REST/HTTPS")
+
+Rel(device_manager, device_repository, "Работает с данными", "Calls")
+Rel(device_repository, devices_db, "Читает/записывает", "SQL")
+
+Rel(status_tracker, message_broker, "Публикует события статусов", "AMQP")
+Rel(sensor_processor, message_broker, "Публикует данные датчиков", "AMQP")
+
+Rel(partner_gateway, sensor_processor, "Передает данные датчиков", "REST/HTTPS")
+Rel(partner_gateway, status_tracker, "Обновляет статусы", "REST/HTTPS")
+
+' Внутренние связи между компонентами домена
+Rel(sensor_processor, device_manager, "Уведомляет о данных", "Calls")
+Rel(relay_controller, device_manager, "Сообщает статус", "Calls")
+Rel(camera_manager, device_manager, "Сообщает статус", "Calls")
+Rel(gate_controller, device_manager, "Сообщает статус", "Calls")
+
+Rel(device_manager, relay_controller, "Управляет реле", "Calls")
+Rel(device_manager, camera_manager, "Управляет камерами", "Calls")
+Rel(device_manager, gate_controller, "Управляет воротами", "Calls")
+
+@enduml
