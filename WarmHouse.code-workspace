@@ -1,19 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "apps/WarmHouse.Analisys"
-		},
-		{
-			"path": "apps/WarmHouse.DeviceManagerService"
-		},
-		{
-			"path": "apps/WarmHouse.Monolit"
-		},
-		{
-			"path": "apps/WarmHouse.SensorService"
-		},
-		{
-			"path": "apps/WarmHouse.TelemetryService"
+			"path": "."
 		}
 	]
 }
