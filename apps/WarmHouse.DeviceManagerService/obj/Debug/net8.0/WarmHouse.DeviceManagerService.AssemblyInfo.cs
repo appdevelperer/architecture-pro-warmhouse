@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WarmHouse.DeviceManagerService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37357a6b04c3055b9940cb99608e247858b7f7c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92612a24f275da608500d8c12718ab52cd4622a8")]
 [assembly: System.Reflection.AssemblyProductAttribute("WarmHouse.DeviceManagerService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WarmHouse.DeviceManagerService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
